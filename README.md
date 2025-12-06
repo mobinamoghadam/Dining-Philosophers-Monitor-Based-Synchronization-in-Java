@@ -1,98 +1,51 @@
-Dining Philosophers – Deadlock-Free, Starvation-Free Monitor Implementation (Java)
+# Dining Philosophers – Monitor-Based Synchronization in Java
 
-This repository contains a Java implementation of the Dining Philosophers synchronization problem using a monitor-based design. The solution ensures deadlock-free and starvation-free behavior while supporting additional functionality such as controlled talking, where only one philosopher may talk at a time while not eating.
+A clean and correct Java implementation of the Dining Philosophers problem using a monitor-based synchronization design. The solution guarantees **no deadlock** and **no starvation**, while also supporting an additional talking feature where only one philosopher may talk at a time.
 
-The project demonstrates practical use of Java’s synchronization primitives and thread coordination techniques to solve a complex concurrency problem.
+---
 
-Features
+## Features
+- Deadlock-free chopstick acquisition  
+- Starvation-free behavior through fair signaling  
+- Monitor-based synchronization using `wait()`, `notify()`, and `notifyAll()`  
+- Exclusive talking control (only one philosopher can talk at a time)  
+- Supports custom number of philosophers via command-line argument  
+- Input validation for incorrect arguments  
 
-Deadlock-free chopstick acquisition using atomic resource control
+---
 
-Starvation prevention through fair, bounded waiting
+## How It Works
+### Philosopher  
+Each philosopher runs as a thread and repeatedly:  
+- Thinks  
+- Tries to pick up chopsticks  
+- Eats  
+- Puts down chopsticks  
+- Optionally requests to talk  
+- Talks if no one else is talking  
 
-Exclusive talking mechanism ensuring only one philosopher speaks at a time
+### Monitor  
+The monitor coordinates all access:  
+- Ensures atomic pick-up of chopsticks  
+- Guarantees fairness to prevent starvation  
+- Allows exactly one philosopher to talk  
+- Notifies waiting philosophers when resources become available  
 
-Monitor-based synchronization using wait(), notify(), and related constructs
+---
 
-Configurable number of philosophers via command-line arguments
-
-Input validation and clear usage instructions
-
-How It Works
-
-The system is structured around two primary components:
-
-Philosopher
-
-Each philosopher runs as an independent thread, cycling through:
-
-Thinking
-
-Attempting to pick up chopsticks
-
-Eating
-
-Putting down chopsticks
-
-Optionally requesting to talk
-
-Talking (only if nobody else is talking)
-
-Monitor
-
-The monitor enforces:
-
-Safe, atomic chopstick acquisition
-
-Fair turn-taking to eliminate starvation
-
-Mutual exclusion for talking
-
-Coordinated signaling through wait() / notifyAll() or Lock/Condition
-
-Usage
-Running the Program
-java DiningPhilosophers [NUMBER_OF_PHILOSOPHERS]
-
-Examples
-
-Use default number of philosophers:
-
+## Usage
+Run with default number of philosophers:
+```bash
 java DiningPhilosophers
 
 
-Specify a custom number:
-
-java DiningPhilosophers 6
-
-
-Invalid argument example:
-
+invalid input:
 "abc" is not a positive decimal integer
 Usage: java DiningPhilosophers [NUMBER_OF_PHILOSOPHERS]
 
-Project Structure
+project structure:
 src/
 └── diningphilosophers/
-    ├── DiningPhilosophers.java   # Main program entry point
-    ├── Philosopher.java          # Thread behavior for each philosopher
-    ├── Monitor.java              # Synchronization logic and resource control
-    └── (supporting classes)
-
-Starvation Prevention
-
-Starvation is eliminated through bounded waiting. Philosophers waiting to eat or talk are signaled in a fair manner, ensuring that no philosopher can be indefinitely delayed. The monitor enforces orderly resource allocation and ensures progress for all participants.
-
-Purpose
-
-This project demonstrates advanced concurrency control techniques and is an example of building a custom monitor structure in Java to enforce correctness properties such as:
-
-Mutual exclusion
-
-Progress and fairness
-
-Deadlock freedom
-
-Starvation freedom
-
-It is suitable for understanding monitor design, thread synchronization, and structured concurrent programming patterns.
+    ├── DiningPhilosophers.java   # Program entry point
+    ├── Philosopher.java          # Thread behavior
+    ├── Monitor.java              # Synchronization logic
