@@ -1,0 +1,43 @@
+	How does my implementation prevent starvation?
+
+		By the while loop around the wait() and the notifyAll inside 
+		the synchronized monitor methods
+			
+			- 	in pickup() and requesttalk() when a philosopher cannot eat or talk they enter a while loop
+				that repeatedly checks the condition every time they are notified that there has been a 
+				change in the state.
+			
+			-	by notifyAll() we make sure that all waiting philosophers wake up whenever the share state 
+				changes.
+			 
+			-	This ensures that no philosopher is forgotten or skipped 
+					-	because:
+						-	All philosophers are awakened whenever the shared state changes
+						-	and no philosophers can hold chopsticks or be talking forever 
+									* since: in function run() in class philosopher
+												pickup() is followed by eat() and putdown()
+												also requesttalk() is followed by talk() and endtalk()
+				So each philosopher eventually get an opportunity
+				this guarantees that the system is starvation free!
+							
+						
+		Furthermore, my implementation prevents starvation by adding explicit fairness through FIFO queues 
+		in the monitor. 
+			Each philosopher that wants to eat is placed into an eatQueue, 
+			and each philosopher that wants to talk is placed into a talkQueue. 
+			
+			A philosopher is only allowed to start eating or talking when it reaches the front of its 
+			respective queue and the situation is safe. 
+			
+			This ensures that philosophers are served strictly in the order they requested access, 
+			so no philosopher can be skipped repeatedly or overtaken by others. 
+			
+			Because philosophers must eventually leave the front of the queue after calling putDown() 
+			or endTalk(), the waiting time of every philosopher is upper-bounded. 
+			
+			Combining this queue fairness with the while loop and notifyAll() pattern guarantees 
+			that all philosophers eventually make progress, fully preventing starvation.			
+			
+			
+			
+		

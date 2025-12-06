@@ -1,0 +1,2 @@
+"-7.a" is not a positive decimal integer
+Usage: java DiningPhilosophers [NUMBER_OF_PHILOSOPHERS]
